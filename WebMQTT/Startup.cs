@@ -28,7 +28,7 @@ namespace WebMQTT
         {
 
             services.AddControllers();
-            services.AddSingleton(new MQTTService());
+            services.AddSingleton(new MQTTService(Configuration["MQTTServer:UserName"],Configuration["MQTTServer:Password"]));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebMQTT", Version = "v1" });
@@ -41,9 +41,13 @@ namespace WebMQTT
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebMQTT v1"));
+               
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebMQTT v1");
+                c.RoutePrefix = "";
+            });
 
             app.UseRouting();
 

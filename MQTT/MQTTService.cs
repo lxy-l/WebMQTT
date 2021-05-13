@@ -9,7 +9,7 @@ namespace MQTT
     public class MQTTService:IDisposable
     {
         private static IMqttServer mqttServer;
-        public MQTTService()
+        public MQTTService(string name,string pwd)
         {
 
             if (mqttServer==null)
@@ -21,7 +21,7 @@ namespace MQTT
                     {
                         ConnectionValidator = new MqttServerConnectionValidatorDelegate(p =>
                         {
-                            if (p.Username != "admin" || p.Password != "123")
+                            if (p.Username != name || p.Password != pwd)
                             {
                                 p.ReasonCode = MqttConnectReasonCode.BadUserNameOrPassword;
                             }
